@@ -167,8 +167,8 @@
               </form>
 
               <p class="text-center">
-                <span>No Access?</span>
-                <a href="auth-register-basic.html">
+                <span>New on our platform?</span>
+                <a href="{{ route('register') }}">
                   <span>Create an account</span>
                 </a>
               </p>
