@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -47,4 +49,30 @@ class AuthController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
+       public function register(Request $request)
+    {
+        return view('auth.register');
+    }
+
+    public function registerStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed', // pastikan ada password_confirmation
+        ]);
+
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')), // Enkripsi password
+        ]);
+
+        Auth::login($user);
+
+        // Redirect ke dashboard atau halaman tertentu
+        return redirect()->route('dashboard');
+    }
+
 }
