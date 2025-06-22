@@ -10,24 +10,31 @@
     <p>Periode: {{ $tanggal_awal }} sampai {{ $tanggal_akhir }}</p>
 
     <table border="1" cellpadding="10" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Barang</th>
-                <th>Jumlah Saat Ini</th>
-                <th>Tanggal Masuk</th>
-                <th>Tanggal Keluar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($laporan as $item)
-            <tr>
-                <td>{{ $item['barang'] }}</td>
-                <td>{{ $item['jumlah_saat_ini'] }}</td>
-                <td>{{ $item['tanggal_masuk'] }}</td>
-                <td>{{ $item['tanggal_keluar'] }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+     <thead>
+    <tr>
+        <th>Kode Barang</th>
+        <th>Barang</th>
+        <th>Jumlah Masuk</th>
+        <th>Jumlah Keluar</th>
+        <th>Jumlah Saat Ini</th>
+        <th>Terakhir Masuk</th>
+        <th>Terakhir Keluar</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach($laporan as $item)
+    <tr>
+        <td>{{ $item['kode'] }}</td>
+        <td>{{ $item['barang'] }}</td>
+        <td>{{ $item['jumlah_masuk'] }}</td>
+        <td>{{ $item['jumlah_keluar'] }}</td>
+        <td>{{ $item['jumlah_saat_ini'] }}</td>
+        <td>{{ $item['tanggal_masuk'] ?? '-' }}</td>
+        <td>{{ $item['tanggal_keluar'] ?? '-' }}</td>
+    </tr>
+    @endforeach
+</tbody>
+
     </table>
 </body>
 </html>

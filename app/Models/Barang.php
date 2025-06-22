@@ -17,6 +17,7 @@ class Barang extends Model
         'kategori_id',
         'satuan',
         'stok',
+        'gambar',
     ];
 
     // Relasi ke kategori

@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class KategoriBarang extends Model
 {
-    use HasFactory;
+    protected $table = 'kategori_barang';
 
-    protected $table = 'kategori_barang';  // Menentukan nama tabel yang benar
+    protected $fillable = ['nama_kategori'];
 
-    protected $fillable = [
-        'nama_kategori',
-    ];
+    public function barang()
+    {
+        return $this->hasMany(Barang::class, 'kategori_id');
+    }
 }

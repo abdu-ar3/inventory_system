@@ -28,11 +28,13 @@ class AuthController extends Controller
             'password' => $request->input('password')
         ], $request->remember)) {
             // Redirect ke halaman home setelah login berhasil
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
-        // Jika login gagal, kembalikan ke form login dengan pesan error
-        return redirect()->route('login')->withErrors(['login' => 'Invalid credentials']);
+         // Tetap kembali ke login dengan error dan input email
+        return redirect()->route('login')
+            ->withErrors(['login' => 'Email atau password salah'])
+            ->withInput();
     }
 
     public function home()

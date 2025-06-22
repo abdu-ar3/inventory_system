@@ -22,6 +22,14 @@
         </div>
 
         <div class="form-group">
+            <label for="satuan">Satuan</label>
+            <select name="satuan" id="satuan" class="form-control" required>
+                <option value="pcs">PCS</option>
+                <option value="karton">Karton</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="tanggal_keluar">Tanggal Keluar</label>
             <input type="date" name="tanggal_keluar" id="tanggal_keluar" class="form-control" required>
         </div>

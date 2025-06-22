@@ -1,66 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 Aplikasi Booking Climbing - Laravel 10
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem ini dikembangkan menggunakan **Laravel 10** sebagai backend dan **Sneat Bootstrap Template** sebagai frontend. Aplikasi ini membantu pengelolaan kegiatan belajar-mengajar, termasuk:
 
-## About Laravel
+- Manajemen kelas
+- Booking peserta
+- Pengelolaan instruktur
+- Feedback dan laporan
+- Autentikasi multi-role (Admin, Instruktur, Customer)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Dashboard Admin**: Lihat ringkasan total kelas, peserta, dan pemesanan.
+- **Manajemen Kelas**: CRUD paket kelas, kategori, dan pengajar.
+- **Manajemen Peserta**: Kelola data user dan partisipasi kelas.
+- **Manajemen Booking**: Konfirmasi, batalkan, atau lihat status pemesanan.
+- **Manajemen Feedback**: Review umpan balik dari peserta kelas.
+- **Autentikasi Role-Based**: Hak akses terpisah untuk Admin, Instruktur, dan Customer.
+- **Laporan & Statistik**: Laporan transaksi dan aktivitas.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠️ Instalasi
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Clone project ini:
+   ```bash
+   git clone https://github.com/username/project-laravel.git
+   cd project-laravel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+🔐 Akun Default
+🛡️ Admin
+Username/Email: abdhurohman7@gmail.com
+Password: 12345678
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+👨‍🏫 Instruktur 1
+Username/Email: aan@gmail.com
+Password: 12345678
 
-### Premium Partners
+👨‍🏫 Customer
+Username/Email: boy@gmail.com
+Password: 12345678
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 🚀 Fitur Utama
 
-## Contributing
+- ✅ **Dashboard Admin**: Statistik kelas, booking, dan peserta
+- 📚 **Manajemen Kelas**: CRUD paket kelas dan penjadwalan
+- 🧑‍🏫 **Manajemen Instruktur**: Tambah dan atur pengajar
+- 👥 **Manajemen Peserta**: Daftar peserta kelas
+- 📝 **Manajemen Booking**: Konfirmasi, batalkan, atau pantau status pemesanan
+- 🌟 **Feedback & Rating**: Tampilkan dan kelola umpan balik peserta
+- 🔒 **Autentikasi Role-Based**: Hak akses khusus sesuai peran
+- 🧾 **Laporan Transaksi**: Laporan pemesanan dan partisipasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🧪 Register Otomatis Role Customer
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Setiap pengguna yang melakukan **registrasi via form frontend** akan langsung diberikan role **Customer** (`role_id = 3`) secara otomatis melalui table `role_user`. Jadi, Anda tidak perlu menetapkan role secara manual setelah registrasi.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---

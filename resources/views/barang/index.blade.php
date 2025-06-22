@@ -20,6 +20,7 @@
                 <th>Kategori</th>
                 <th>Satuan</th>
                 <th>Stok</th>
+                <th>Gambar</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -31,6 +32,10 @@
                 <td>{{ $item->kategori->nama_kategori }}</td>
                 <td>{{ $item->satuan }}</td>
                 <td>{{ $item->stok }}</td>
+                <td>
+                    <img src="{{ asset('storage/' . $item->gambar) }}" width="150">
+
+                </td>
                 <td>
                     <a href="{{ route('barang.edit', $item->id) }}" class="btn btn-warning">Edit</a>
                     <form action="{{ route('barang.destroy', $item->id) }}" method="POST" style="display:inline;">

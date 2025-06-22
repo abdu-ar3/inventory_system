@@ -17,6 +17,7 @@
             <tr>
                 <th>Barang</th>
                 <th>Jumlah</th>
+                <th>Satuan</th>
                 <th>Tanggal Keluar</th>
                 <th>Tujuan</th>
                 <th>Keterangan</th>
@@ -28,6 +29,7 @@
             <tr>
                 <td>{{ $item->barang->nama_barang }}</td>
                 <td>{{ $item->jumlah }}</td>
+                <td>{{ $item->satuan }}</td>
                 <td>{{ $item->tanggal_keluar }}</td>
                 <td>{{ $item->tujuan }}</td>
                 <td>{{ $item->keterangan }}</td>

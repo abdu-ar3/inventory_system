@@ -12,107 +12,114 @@ use PDF;  // Untuk ekspor PDF
 class LaporanController extends Controller
 {
     // app/Http/Controllers/LaporanController.php
-
     public function summary(Request $request)
     {
         $tanggal_awal = $request->input('tanggal_awal');
         $tanggal_akhir = $request->input('tanggal_akhir');
 
         // Ambil semua barang yang ada
-        $barang = Barang::all();
+        $barangId = $request->input('barang_id');
+        $barang = $barangId
+            ? Barang::where('id', $barangId)->get()
+            : Barang::all();
+        $semuaBarang = Barang::all();    
 
         $laporan = [];
 
         foreach ($barang as $item) {
             // Total barang masuk dalam rentang tanggal
-            $barangMasuk = BarangMasuk::where('barang_id', $item->id)
+            $jumlahMasuk = BarangMasuk::where('barang_id', $item->id)
                 ->whereBetween('tanggal_masuk', [$tanggal_awal, $tanggal_akhir])
                 ->sum('jumlah');
 
             // Total barang keluar dalam rentang tanggal
-            $barangKeluar = BarangKeluar::where('barang_id', $item->id)
+            $jumlahKeluar = BarangKeluar::where('barang_id', $item->id)
                 ->whereBetween('tanggal_keluar', [$tanggal_awal, $tanggal_akhir])
                 ->sum('jumlah');
 
             // Hitung jumlah saat ini
-            $jumlahSaatIni = $barangMasuk - $barangKeluar;
-
-            // Ambil tanggal masuk terakhir (bukan max() yang menyebabkan error)
-            $tanggalMasukTerakhir = BarangMasuk::where('barang_id', $item->id)
-                ->whereBetween('tanggal_masuk', [$tanggal_awal, $tanggal_akhir])
-                ->orderBy('tanggal_masuk', 'desc')
-                ->first();
-
-            // Ambil tanggal keluar terakhir
-            $tanggalKeluarTerakhir = BarangKeluar::where('barang_id', $item->id)
-                ->whereBetween('tanggal_keluar', [$tanggal_awal, $tanggal_akhir])
-                ->orderBy('tanggal_keluar', 'desc')
-                ->first();
-
-            // Simpan data laporan
-            $laporan[] = [
-                'barang' => $item->nama_barang,
-                'jumlah_saat_ini' => $jumlahSaatIni,
-                'tanggal_masuk' => $tanggalMasukTerakhir ? $tanggalMasukTerakhir->tanggal_masuk : null,  // Ambil tanggal masuk terakhir
-                'tanggal_keluar' => $tanggalKeluarTerakhir ? $tanggalKeluarTerakhir->tanggal_keluar : null, // Ambil tanggal keluar terakhir
-            ];
-        }
-
-        // Return view laporan
-        return view('laporan.summary', compact('laporan', 'tanggal_awal', 'tanggal_akhir'));
-    }
-
-
-    // app/Http/Controllers/LaporanController.php
-
-    public function exportToPdf(Request $request)
-    {
-        $tanggal_awal = $request->input('tanggal_awal');
-        $tanggal_akhir = $request->input('tanggal_akhir');
-
-        // Ambil semua barang yang ada
-        $barang = Barang::all();
-        $laporan = [];
-
-        foreach ($barang as $item) {
-            // Total barang masuk dalam rentang tanggal
-            $barangMasuk = BarangMasuk::where('barang_id', $item->id)
-                ->whereBetween('tanggal_masuk', [$tanggal_awal, $tanggal_akhir])
-                ->sum('jumlah');
-
-            // Total barang keluar dalam rentang tanggal
-            $barangKeluar = BarangKeluar::where('barang_id', $item->id)
-                ->whereBetween('tanggal_keluar', [$tanggal_awal, $tanggal_akhir])
-                ->sum('jumlah');
-
-            // Hitung jumlah saat ini
-            $jumlahSaatIni = $barangMasuk - $barangKeluar;
+            $jumlahSaatIni = $jumlahMasuk - $jumlahKeluar;
 
             // Ambil tanggal masuk terakhir
             $tanggalMasukTerakhir = BarangMasuk::where('barang_id', $item->id)
                 ->whereBetween('tanggal_masuk', [$tanggal_awal, $tanggal_akhir])
                 ->orderBy('tanggal_masuk', 'desc')
-                ->first();  // Ambil tanggal masuk terakhir yang valid
+                ->first();
 
             // Ambil tanggal keluar terakhir
             $tanggalKeluarTerakhir = BarangKeluar::where('barang_id', $item->id)
                 ->whereBetween('tanggal_keluar', [$tanggal_awal, $tanggal_akhir])
                 ->orderBy('tanggal_keluar', 'desc')
-                ->first();  // Ambil tanggal keluar terakhir yang valid
+                ->first();
 
             // Simpan data laporan
             $laporan[] = [
+                'kode' => $item->kode_barang,
                 'barang' => $item->nama_barang,
+                'jumlah_masuk' => $jumlahMasuk,
+                'jumlah_keluar' => $jumlahKeluar,
                 'jumlah_saat_ini' => $jumlahSaatIni,
-                'tanggal_masuk' => $tanggalMasukTerakhir ? $tanggalMasukTerakhir->tanggal_masuk : null,  // Ambil tanggal masuk terakhir
-                'tanggal_keluar' => $tanggalKeluarTerakhir ? $tanggalKeluarTerakhir->tanggal_keluar : null, // Ambil tanggal keluar terakhir
+                'tanggal_masuk' => $tanggalMasukTerakhir ? $tanggalMasukTerakhir->tanggal_masuk : null,
+                'tanggal_keluar' => $tanggalKeluarTerakhir ? $tanggalKeluarTerakhir->tanggal_keluar : null,
             ];
         }
 
-        // Load view untuk PDF
+        return view('laporan.summary', compact('laporan', 'tanggal_awal', 'tanggal_akhir', 'semuaBarang'));
+    }
+
+
+    // app/Http/Controllers/LaporanController.php
+
+   public function exportToPdf(Request $request)
+    {
+        $tanggal_awal = $request->input('tanggal_awal');
+        $tanggal_akhir = $request->input('tanggal_akhir');
+        $barangId = $request->input('barang_id');
+
+        // Ambil barang sesuai filter
+        $barang = $barangId
+            ? Barang::where('id', $barangId)->get()
+            : Barang::all();
+
+        $laporan = [];
+
+        foreach ($barang as $item) {
+            $jumlahMasuk = BarangMasuk::where('barang_id', $item->id)
+                ->whereBetween('tanggal_masuk', [$tanggal_awal, $tanggal_akhir])
+                ->sum('jumlah');
+
+            $jumlahKeluar = BarangKeluar::where('barang_id', $item->id)
+                ->whereBetween('tanggal_keluar', [$tanggal_awal, $tanggal_akhir])
+                ->sum('jumlah');
+
+            $jumlahSaatIni = $jumlahMasuk - $jumlahKeluar;
+
+            $tanggalMasukTerakhir = BarangMasuk::where('barang_id', $item->id)
+                ->whereBetween('tanggal_masuk', [$tanggal_awal, $tanggal_akhir])
+                ->orderBy('tanggal_masuk', 'desc')
+                ->first();
+
+            $tanggalKeluarTerakhir = BarangKeluar::where('barang_id', $item->id)
+                ->whereBetween('tanggal_keluar', [$tanggal_awal, $tanggal_akhir])
+                ->orderBy('tanggal_keluar', 'desc')
+                ->first();
+
+            $laporan[] = [
+                'kode' => $item->kode_barang,
+                'barang' => $item->nama_barang,
+                'jumlah_masuk' => $jumlahMasuk,
+                'jumlah_keluar' => $jumlahKeluar,
+                'jumlah_saat_ini' => $jumlahSaatIni,
+                'tanggal_masuk' => $tanggalMasukTerakhir ? $tanggalMasukTerakhir->tanggal_masuk : null,
+                'tanggal_keluar' => $tanggalKeluarTerakhir ? $tanggalKeluarTerakhir->tanggal_keluar : null,
+            ];
+        }
+
         $pdf = FacadePdf::loadView('laporan.summary_pdf', compact('laporan', 'tanggal_awal', 'tanggal_akhir'));
         return $pdf->download('laporan_summary.pdf');
     }
+
+
 
 }
 

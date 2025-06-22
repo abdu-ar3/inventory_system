@@ -27,6 +27,7 @@ class BarangMasukController extends Controller
         $request->validate([
             'barang_id' => 'required|exists:barang,id',
             'jumlah' => 'required|integer',
+            'satuan' => 'required',
             'tanggal_masuk' => 'required|date',
             'supplier_id' => 'required|exists:supplier,id',
         ]);

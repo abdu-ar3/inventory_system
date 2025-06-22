@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\KategoriBarang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
@@ -20,20 +21,27 @@ class BarangController extends Controller
         return view('barang.create', compact('kategori'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'kode_barang' => 'required|unique:barang',
-            'nama_barang' => 'required',
-            'kategori_id' => 'required|exists:kategori_barang,id',
-            'satuan' => 'required',
-            'stok' => 'required|integer',
-        ]);
+  public function store(Request $request)
+{
+     $data =    $request->validate([
+        'kode_barang' => 'required|unique:barang',
+        'nama_barang' => 'required',
+        'kategori_id' => 'required|exists:kategori_barang,id',
+        'satuan' => 'required',
+        'stok' => 'required|integer',
+        'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+    ]);
 
-        Barang::create($request->all());
 
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan');
-    }
+    if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('barangs', 'public');
+        }
+
+    Barang::create($data);
+
+    return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan');
+}
+
 
     public function edit(Barang $barang)
     {
@@ -50,6 +58,15 @@ class BarangController extends Controller
             'satuan' => 'required',
             'stok' => 'required|integer',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            if ($barang->gambar && Storage::disk('public')->exists($barang->gambar)) {
+                Storage::disk('public')->delete($barang->gambar);
+            }
+
+                $gambar = $request->file('gambar')->store('barang', 'public');
+                $validated['gambar'] = $gambar;
+            }
 
         $barang->update($request->all());
 

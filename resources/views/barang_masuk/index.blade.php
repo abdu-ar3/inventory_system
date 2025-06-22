@@ -10,6 +10,7 @@
             <tr>
                 <th>Barang</th>
                 <th>Jumlah</th>
+                <th>Satuan</th>
                 <th>Tanggal Masuk</th>
                 <th>Supplier</th>
                 <th>Aksi</th>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ $item->barang->nama_barang }}</td>
                 <td>{{ $item->jumlah }}</td>
+                <td>{{ $item->satuan }}</td>
                 <td>{{ $item->tanggal_masuk }}</td>
                 <td>{{ $item->supplier->nama_supplier }}</td>
                 <td>
